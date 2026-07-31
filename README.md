@@ -5,8 +5,9 @@ for cases that deserve more than a skim: infra/Terraform changes, IAM or
 access changes, or anything where "looks fine" isn't good enough. It traces
 claims against the actual repo (usages, history, other consumers of the
 changed code) instead of reasoning from the diff alone, cross-checks against
-existing PR discussion, drafts findings, runs them through
-[personify](https://github.com/smartwatermelon/personify), and stages them
+existing PR discussion, triages findings down to the one issue that matters
+most, drafts and runs it through
+[personify](https://github.com/smartwatermelon/personify), and stages it
 as a GitHub pending review. It never posts, submits, or merges without
 explicit approval at each checkpoint.
 
@@ -63,8 +64,9 @@ one is specifically for reviewing someone else's PR.
 See `SKILL.md` for the full workflow: orient against the repo's own review
 contract, classify the kind of change, verify claims against real usage
 rather than trusting the diff, adversarially self-check candidate findings,
-draft and personify the review, then stage it as a pending GitHub review for
-a human to submit.
+triage them down to the single highest-severity issue (rarely two), draft
+and personify the review, then stage it as a pending GitHub review for a
+human to submit.
 
 ## License
 
