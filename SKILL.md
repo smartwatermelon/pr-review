@@ -6,14 +6,15 @@ description: |
   anything where "looks fine" isn't good enough. Traces claims against the
   actual repo (usages, history, other consumers of the same code) instead of
   reasoning from the diff alone, cross-checks against existing PR discussion
-  so comments don't duplicate what's already been said, drafts comments,
-  personifies them, and stages them as a GitHub pending review for explicit
-  approval before anything gets posted. Never posts, submits, or merges
-  without the user's go-ahead at each checkpoint. Use for "/pr-review 123",
-  "review PR 123", "take a look at PR 123", or similar requests to review
-  someone else's PR (not your own working diff — for that, use /code-review).
+  so comments don't duplicate what's already been said, triages findings down
+  to the single most important issue (rarely two), drafts and personifies
+  that, and stages it as a GitHub pending review for explicit approval before
+  anything gets posted. Never posts, submits, or merges without the user's
+  go-ahead at each checkpoint. Use for "/pr-review 123", "review PR 123",
+  "take a look at PR 123", or similar requests to review someone else's PR
+  (not your own working diff — for that, use /code-review).
 metadata:
-  version: "1.0.0"
+  version: "1.1.0"
 ---
 
 # PR Review: deep-dive on someone else's PR
@@ -23,6 +24,12 @@ exists because surface-level review misses the interesting bugs: the ones
 where the diff looks reasonable in isolation but is wrong (or already being
 discussed, or actually fine) once you trace how the changed code is really
 used. Budget for several tool calls per finding — that cost is the point.
+
+The person receiving this review is (usually) a human, not another agent, and
+a wall of findings is a burden, not a service. Do the full investigation, but
+narrow what actually gets posted to the PR down to the one issue that matters
+most — see Phase 5. Investigation depth doesn't change; what changes is how
+much of it becomes a comment on someone else's PR.
 
 ## Terminology and staying current
 
@@ -141,28 +148,52 @@ state they describe. Report back honestly if you can't fully verify (e.g.
 the replacement doesn't exist yet), without treating that as grounds to
 re-litigate a settled, reasonable-sounding answer.
 
-## Phase 5: Draft, personify, approve
+## Phase 5: Triage, draft, personify, approve
 
-1. Draft the review as a short overall summary plus specific findings, each
-   anchored to a file/line, phrased as questions where genuine uncertainty
-   remains and as direct statements only where you have verified evidence.
-   Lead with genuine, non-duplicate findings; explicitly acknowledge and skip
-   over ground already covered by existing PR comments.
-2. Keep it short. A GitHub review is not the place for discussion, that
-   happens in Slack or in person. Each finding is either something that
+1. **Triage down to one issue before drafting.** Rank surviving candidate
+   findings by severity: correctness > security/access > design > nit. A
+   well-scoped PR is usually telling one story even when it shows up in
+   several places, so compact same-cause findings into a single item with
+   multiple touchpoints ("methods X, Y, and Z all read the stale config
+   key") rather than posting them separately.
+   - Post only the single highest-severity compacted item. A second item is
+     allowed only if it sits in the same top severity tier as the first,
+     addresses a genuinely different concern, and shares no root cause with
+     it — don't include a second finding just because it's also true.
+   - If the candidate findings can't be compacted into one coherent item
+     because the PR itself spans too many unrelated concerns, that's a
+     scope problem with the PR, not a reason to post more comments. Note it
+     to the invoker (next step) instead of routing it onto the PR author as
+     extra review comments.
+   - If nothing clears the bar for a comment, don't invent a nit to have
+     something to say. Plan to stage an Approve-leaning review with a
+     brief, specific positive callout instead (Phase 6 still applies: it
+     stays a pending, unsubmitted review either way).
+2. If any candidate findings were set aside during triage, tell the invoker
+   what they were and why (lower severity than the headline item, same root
+   cause, PR scope too broad to compact, etc.) before showing the draft —
+   the investigation wasn't wasted, it just isn't all becoming PR comments.
+   Skip this step entirely when nothing was set aside.
+3. Draft the review as a short overall summary plus the triaged finding(s),
+   anchored to a file/line, phrased as a question where genuine uncertainty
+   remains and as a direct statement only where you have verified evidence.
+   If everything was resolved to "nothing to flag," draft a short summary
+   recommending Approve plus the positive callout instead.
+4. Keep it short. A GitHub review is not the place for discussion, that
+   happens in Slack or in person. The finding is either something that
    needs attention (a change request or a genuine question blocking
    approval) or a call-out of particularly clever/notable work, not a
    walkthrough of the code, the behavior, or the reasoning behind it. State
    the conclusion and the one-line reason; don't narrate the investigation
    that got you there, and don't restate the mechanism/logic you traced in
-   Phase 3 unless the reader needs it to understand what to change. If a
+   Phase 3 unless the reader needs it to understand what to change. If the
    finding runs longer than 3-4 sentences, it's probably prose that belongs
    in Slack, not in the review, cut it down to the actionable core.
-3. Run the draft through the `personify` skill, if it's installed. If it
+5. Run the draft through the `personify` skill, if it's installed. If it
    isn't, say so and show the plain draft instead of failing the whole
    review — personify improves the prose, it isn't load-bearing for the
    review's substance.
-4. Show the human the draft (personified or plain) and wait for explicit
+6. Show the human the draft (personified or plain) and wait for explicit
    approval. Accept edits and re-run as needed. Do not treat silence or a
    tangential reply as approval.
 
@@ -179,7 +210,10 @@ gh api --method POST /repos/<owner>/<repo>/pulls/<N>/reviews \
 
 where `review.json` has `body` (the summary) and `comments[]` of
 `{path, line, side: "RIGHT", body}`, anchored to added lines on the PR's
-current head SHA, and **no `event` field**.
+current head SHA, and **no `event` field**. When Phase 5 concluded "nothing
+to flag," `comments[]` may be empty or hold just the positive callout — the
+review still stages as pending, not as a submitted approval; the human
+chooses and submits the actual verdict.
 
 To edit a pending comment: the `PATCH /pulls/comments/{id}` endpoint 404s on
 unpublished comments. Delete the whole pending review
