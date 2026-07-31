@@ -141,7 +141,7 @@ state they describe. Report back honestly if you can't fully verify (e.g.
 the replacement doesn't exist yet), without treating that as grounds to
 re-litigate a settled, reasonable-sounding answer.
 
-## Phase 5: Draft, humanize, approve
+## Phase 5: Draft, personify, approve
 
 1. Draft the review as a short overall summary plus specific findings, each
    anchored to a file/line, phrased as questions where genuine uncertainty
@@ -158,10 +158,13 @@ re-litigate a settled, reasonable-sounding answer.
    Phase 3 unless the reader needs it to understand what to change. If a
    finding runs longer than 3-4 sentences, it's probably prose that belongs
    in Slack, not in the review, cut it down to the actionable core.
-3. Run the draft through the `personify` skill.
-4. Show the human the personified draft and wait for explicit approval. Accept
-   edits and re-run as needed. Do not treat silence or a tangential reply as
-   approval.
+3. Run the draft through the `personify` skill, if it's installed. If it
+   isn't, say so and show the plain draft instead of failing the whole
+   review — personify improves the prose, it isn't load-bearing for the
+   review's substance.
+4. Show the human the draft (personified or plain) and wait for explicit
+   approval. Accept edits and re-run as needed. Do not treat silence or a
+   tangential reply as approval.
 
 ## Phase 6: Stage, don't publish
 
@@ -185,8 +188,9 @@ to patch in place.
 
 `review.json` is written to whatever repo you're reviewing (it may contain
 excerpts of that repo's code), not to this skill's own directory — delete it
-once the API call succeeds so it doesn't linger and get swept into an
-unrelated commit there.
+right after the API call, whether it succeeded or failed, so it doesn't
+linger and get swept into an unrelated commit there. On a retry, regenerate
+it fresh rather than reusing a copy that may reference a stale head SHA.
 
 Tell the human the review is staged and pending, and stop. Submitting the
 review, replying to follow-up comments, resolving threads, and merging are
