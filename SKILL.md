@@ -183,6 +183,11 @@ unpublished comments. Delete the whole pending review
 (`DELETE /pulls/<N>/reviews/<review_id>`) and recreate it instead of trying
 to patch in place.
 
+`review.json` is written to whatever repo you're reviewing (it may contain
+excerpts of that repo's code), not to this skill's own directory — delete it
+once the API call succeeds so it doesn't linger and get swept into an
+unrelated commit there.
+
 Tell the human the review is staged and pending, and stop. Submitting the
 review, replying to follow-up comments, resolving threads, and merging are
 all separate, explicitly-authorized actions — do not chain into them.

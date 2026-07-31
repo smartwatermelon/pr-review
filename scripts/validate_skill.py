@@ -38,14 +38,30 @@ def main() -> None:
             key = nonportable_key[:-1]
             fail(f"Remove nonportable frontmatter key: {key}")
 
+    manifests = {}
     for manifest_name in ("plugin.json", "marketplace.json"):
         manifest_path = ROOT / ".claude-plugin" / manifest_name
         try:
-            json.loads(manifest_path.read_text(encoding="utf-8"))
+            manifests[manifest_name] = json.loads(
+                manifest_path.read_text(encoding="utf-8")
+            )
         except FileNotFoundError:
             fail(f"{manifest_name} not found")
         except json.JSONDecodeError as exc:
             fail(f"{manifest_name} is not valid JSON: {exc}")
+
+    skill_version_match = re.search(
+        r"(?m)^\s*version:\s*[\"']?([^\"'\n]+)", frontmatter
+    )
+    if skill_version_match is None:
+        fail("SKILL.md frontmatter missing metadata.version")
+    skill_version = skill_version_match.group(1).strip()
+    plugin_version = manifests["plugin.json"].get("version")
+    if skill_version != plugin_version:
+        fail(
+            "Version mismatch: SKILL.md metadata.version="
+            f"{skill_version!r} vs. plugin.json version={plugin_version!r}"
+        )
 
     print("SKILL.md and plugin manifests are valid")
 
