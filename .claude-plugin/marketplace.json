@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace-manifest.json",
+  "name": "pr-review",
+  "owner": {
+    "name": "smartwatermelon",
+    "url": "https://github.com/smartwatermelon"
+  },
+  "description": "The pr-review skill, installable as a Claude Code plugin.",
+  "plugins": [
+    {
+      "name": "pr-review",
+      "source": "./",
+      "description": "Deep-dive review of a teammate's GitHub pull request, staged as a pending review for explicit approval before anything is posted.",
+      "license": "MIT",
+      "keywords": ["code-review", "github", "pull-request", "skill"]
+    }
+  ]
+}
