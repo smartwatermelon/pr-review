@@ -10,7 +10,7 @@
     {
       "name": "pr-review",
       "source": "./",
-      "description": "Deep-dive review of a teammate's GitHub pull request: triages findings to the one issue that matters most, and stages it as a pending review for explicit approval before anything is posted.",
+      "description": "Deep-dive review of a teammate's GitHub pull request: triages findings down to the one issue that matters most, and stages it as a pending review for explicit approval before anything is posted.",
       "license": "MIT",
       "keywords": ["code-review", "github", "pull-request", "skill"]
     }
