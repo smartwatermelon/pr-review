@@ -150,8 +150,11 @@ re-litigate a settled, reasonable-sounding answer.
 
 ## Phase 5: Triage, draft, personify, approve
 
-1. **Triage down to one issue before drafting.** Rank surviving candidate
-   findings by severity: correctness > security/access > design > nit. A
+1. **Triage down to one issue before drafting.** Judge each candidate
+   finding's real-world severity first (a design nit that would corrupt
+   data outranks a "correctness" issue that's cosmetic); use the category
+   order correctness > security/access > design > nit only as a tiebreaker
+   among findings of comparable weight, not as an absolute ranking. A
    well-scoped PR is usually telling one story even when it shows up in
    several places, so compact same-cause findings into a single item with
    multiple touchpoints ("methods X, Y, and Z all read the stale config
