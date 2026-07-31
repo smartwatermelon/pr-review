@@ -1,0 +1,13 @@
+{
+  "name": "pr-review",
+  "description": "Deep-dive review of a teammate's GitHub pull request: traces claims against the repo instead of reasoning from the diff alone, and stages findings as a pending GitHub review for explicit approval before anything is posted.",
+  "version": "1.0.0",
+  "author": {
+    "name": "smartwatermelon",
+    "url": "https://github.com/smartwatermelon"
+  },
+  "homepage": "https://github.com/smartwatermelon/pr-review",
+  "repository": "https://github.com/smartwatermelon/pr-review",
+  "license": "MIT",
+  "keywords": ["code-review", "github", "pull-request", "skill"]
+}
