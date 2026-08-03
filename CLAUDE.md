@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This repository *is* a single Claude Code Skill, packaged as an installable plugin: `SKILL.md` at the repo root defines "pr-review," a skill that does a deep-dive review of a teammate's GitHub pull request — tracing claims against the real repo instead of reasoning from the diff alone, and staging findings as a pending GitHub review rather than posting them directly. `SKILL.md`'s content is the entire functional deliverable; everything else in the repo exists to distribute and validate that one file.
 
-- `.claude-plugin/plugin.json` and `.claude-plugin/marketplace.json` make `/plugin marketplace add smartwatermelon/pr-review` work in Claude Code.
+- `.claude-plugin/plugin.json` and `.claude-plugin/marketplace.json` make `/plugin marketplace add smartwatermelon/pr-review` work in Claude Code. `plugin.json`'s `skills` field points at the repo root (`./`), since `SKILL.md` lives there rather than under the conventional `skills/<name>/` subdirectory; without it, the plugin loads and the skill still works, but Claude Desktop's plugin detail panel won't list it under "Skills." Keep this field if `SKILL.md`'s location ever changes.
 - `.github/workflows/validate.yml` runs `scripts/validate_skill.py` on push/PR: checks `SKILL.md`'s frontmatter has required keys and no non-portable ones (`compatibility`, `allowed-tools` break plugin-marketplace validation), and that the plugin/marketplace manifests are valid JSON.
 - `README.md` and `LICENSE` are independently written for this repo.
 

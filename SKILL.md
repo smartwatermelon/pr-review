@@ -14,7 +14,7 @@ description: |
   "take a look at PR 123", or similar requests to review someone else's PR
   (not your own working diff — for that, use /code-review).
 metadata:
-  version: "1.1.0"
+  version: "1.1.1"
 ---
 
 # PR Review: deep-dive on someone else's PR
