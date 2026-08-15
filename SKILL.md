@@ -14,7 +14,7 @@ description: |
   "take a look at PR 123", or similar requests to review someone else's PR
   (not your own working diff — for that, use /code-review).
 metadata:
-  version: "1.1.1"
+  version: "1.2.0"
 ---
 
 # PR Review: deep-dive on someone else's PR
@@ -169,9 +169,11 @@ re-litigate a settled, reasonable-sounding answer.
      to the invoker (next step) instead of routing it onto the PR author as
      extra review comments.
    - If nothing clears the bar for a comment, don't invent a nit to have
-     something to say. Plan to stage an Approve-leaning review with a
-     brief, specific positive callout instead (Phase 6 still applies: it
-     stays a pending, unsubmitted review either way).
+     something to say. Plan to stage an Approve-leaning review instead — a
+     specific one-line callout if something genuinely stood out, otherwise
+     a plain `LGTM` is a complete review body, not a placeholder for more
+     (Phase 6 still applies: it stays a pending, unsubmitted review either
+     way).
 2. If any candidate findings were set aside during triage, tell the invoker
    what they were and why (lower severity than the headline item, same root
    cause, PR scope too broad to compact, etc.) before showing the draft —
@@ -180,18 +182,24 @@ re-litigate a settled, reasonable-sounding answer.
 3. Draft the review as a short overall summary plus the triaged finding(s),
    anchored to a file/line, phrased as a question where genuine uncertainty
    remains and as a direct statement only where you have verified evidence.
-   If everything was resolved to "nothing to flag," draft a short summary
-   recommending Approve plus the positive callout instead.
-4. Keep it short. A GitHub review is not the place for discussion, that
-   happens in Slack or in person. The finding is either something that
-   needs attention (a change request or a genuine question blocking
-   approval) or a call-out of particularly clever/notable work, not a
-   walkthrough of the code, the behavior, or the reasoning behind it. State
-   the conclusion and the one-line reason; don't narrate the investigation
-   that got you there, and don't restate the mechanism/logic you traced in
-   Phase 3 unless the reader needs it to understand what to change. If the
-   finding runs longer than 3-4 sentences, it's probably prose that belongs
-   in Slack, not in the review, cut it down to the actionable core.
+   If everything was resolved to "nothing to flag," the summary is one
+   sentence or less — `LGTM` on its own is a complete, acceptable review
+   body when there's nothing more worth saying.
+4. Keep it short, and err toward shorter still. A GitHub review is not the
+   place for discussion, that happens in Slack or in person. The finding is
+   either something that needs attention (a change request or a genuine
+   question blocking approval) or a call-out of particularly clever/notable
+   work, not a walkthrough of the code, the behavior, or the reasoning
+   behind it. State the conclusion and the one-line reason; don't narrate
+   the investigation that got you there, and don't restate the
+   mechanism/logic you traced in Phase 3 unless the reader needs it to
+   understand what to change. Cut grammar-perfect throat-clearing, hedges,
+   and apologies ("I think", "just wanted to note", "sorry to nitpick") —
+   say the thing plainly. Direct is not the same as harsh: state what's
+   wrong and why without softening filler, but don't editorialize on the
+   author either. If the finding runs longer than 3-4 sentences, it's
+   probably prose that belongs in Slack, not in the review, cut it down to
+   the actionable core.
 5. Run the draft through the `personify` skill, if it's installed. If it
    isn't, say so and show the plain draft instead of failing the whole
    review — personify improves the prose, it isn't load-bearing for the
