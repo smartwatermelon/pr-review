@@ -68,6 +68,36 @@ triage them down to the single highest-severity issue (rarely two), draft
 and personify the review, then stage it as a pending GitHub review for a
 human to submit.
 
+## Works with personify and dumbify
+
+pr-review is the first of three sibling skills that compose into one path from
+"review this PR" to a posted comment that reads like a person wrote it:
+
+```text
+pr-review    →    personify    →    dumbify
+(find it)         (de-AI it)        (compress it)
+```
+
+pr-review does the substance: it finds the issue, verifies it, and triages down
+to the one finding worth posting. The other two only touch how the draft reads.
+
+- [personify](https://github.com/smartwatermelon/personify) strips AI-writing
+  tells and, given a `VOICE.md`, makes the comment sound like you specifically
+  rather than like generically clean prose.
+- [dumbify](https://github.com/smartwatermelon/dumbify) compresses the register
+  further — terse, lowercase, fragment-heavy.
+
+Phase 5 runs both automatically when they're installed, personify first, then
+dumbify. Both degrade gracefully: if a skill isn't installed, pr-review says so
+and carries on, because neither is load-bearing for the review's substance.
+
+The two prose skills overlap, so running both is a choice rather than an
+upgrade. Personify's work register already produces lowercase starts and
+fragments; dumbify pushes past that. For most review comments personify alone
+is enough, which is why dumbify only runs if you've actually installed it.
+Order is fixed — personify's de-abstraction pass needs the full sentence that
+dumbify deletes.
+
 ## License
 
 MIT. See [LICENSE](LICENSE).
