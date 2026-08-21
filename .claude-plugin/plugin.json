@@ -1,7 +1,7 @@
 {
   "name": "pr-review",
   "description": "Deep-dive review of a teammate's GitHub pull request: traces claims against the repo instead of reasoning from the diff alone, triages findings down to the one issue that matters most, and stages it as a pending GitHub review for explicit approval before anything is posted.",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "author": {
     "name": "smartwatermelon",
     "url": "https://github.com/smartwatermelon"

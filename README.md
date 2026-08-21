@@ -88,15 +88,17 @@ to the one finding worth posting. The other two only touch how the draft reads.
   further — terse, lowercase, fragment-heavy.
 
 Phase 5 runs both automatically when they're installed, personify first, then
-dumbify. Both degrade gracefully: if a skill isn't installed, pr-review says so
-and carries on, because neither is load-bearing for the review's substance.
+dumbify. Both degrade gracefully, though not identically: if personify isn't
+installed, pr-review says so and shows the plain draft; if dumbify isn't
+installed, it skips that pass silently, because personify's work register
+already lands close to dumbify's default. Neither is load-bearing for the
+review's substance.
 
 The two prose skills overlap, so running both is a choice rather than an
 upgrade. Personify's work register already produces lowercase starts and
 fragments; dumbify pushes past that. For most review comments personify alone
-is enough, which is why dumbify only runs if you've actually installed it.
-Order is fixed — personify's de-abstraction pass needs the full sentence that
-dumbify deletes.
+is enough, which is why a missing dumbify costs you little. Order is fixed —
+personify's de-abstraction pass needs the full sentence that dumbify deletes.
 
 ## License
 
