@@ -15,7 +15,7 @@ description: |
   "take a look at PR 123", or similar requests to review someone else's PR
   (not your own working diff — for that, use /code-review).
 metadata:
-  version: "1.2.0"
+  version: "1.3.0"
 ---
 
 # PR Review: deep-dive on someone else's PR
@@ -194,13 +194,23 @@ re-litigate a settled, reasonable-sounding answer.
    behind it. State the conclusion and the one-line reason; don't narrate
    the investigation that got you there, and don't restate the
    mechanism/logic you traced in Phase 3 unless the reader needs it to
-   understand what to change. Cut grammar-perfect throat-clearing, hedges,
-   and apologies ("I think", "just wanted to note", "sorry to nitpick") —
-   say the thing plainly. Direct is not the same as harsh: state what's
-   wrong and why without softening filler, but don't editorialize on the
+   understand what to change. Cut grammar-perfect throat-clearing, reflexive
+   hedges, and apologies ("I think", "just wanted to note", "sorry to
+   nitpick") — say the thing plainly. Direct is not the same as harsh: state
+   what's wrong and why without softening filler, but don't editorialize on the
    author either. If the finding runs longer than 3-4 sentences, it's
    probably prose that belongs in Slack, not in the review, cut it down to
    the actionable core.
+   - Before moving on, read the draft back one sentence at a time and ask
+     of each: what does this actually change for the author? A sentence
+     that only restates the diff, re-explains what you already said, or
+     warms the reader up doesn't survive that question — cut it. This is
+     the brevity test that settles it; the rest of this step tells you what
+     tends to fail it, and its hard limits (the 3-4 sentence ceiling, the
+     stop-word list) still bind on their own. It is a test of whether a
+     sentence is doing work, not of whether every word is a fact: a hedge
+     marking genuine uncertainty, or the connective that makes a finding
+     land as a question rather than an accusation, is doing work and stays.
 5. Run the draft through the `personify` skill, if it's installed. If it
    isn't, say so and show the plain draft instead of failing the whole
    review — personify improves the prose, it isn't load-bearing for the
