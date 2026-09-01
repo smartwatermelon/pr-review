@@ -5,8 +5,10 @@ description: |
   more than a skim: infra/Terraform changes, IAM or access changes, or
   anything where "looks fine" isn't good enough. Traces claims against the
   actual repo (usages, history, other consumers of the same code) instead of
-  reasoning from the diff alone, cross-checks against existing PR discussion
-  so comments don't duplicate what's already been said, triages findings down
+  reasoning from the diff alone, runs local tools against scratch cases when
+  a finding is about what a tool actually does, cross-checks against existing
+  PR discussion so comments don't duplicate what's already been said,
+  triages findings down
   to the single most important issue (rarely two), drafts that and runs it
   through the personify and dumbify skills when installed, and stages it as
   a GitHub pending review for explicit approval before anything gets posted.
@@ -15,7 +17,7 @@ description: |
   "take a look at PR 123", or similar requests to review someone else's PR
   (not your own working diff — for that, use /code-review).
 metadata:
-  version: "1.3.0"
+  version: "1.4.0"
 ---
 
 # PR Review: deep-dive on someone else's PR
@@ -88,6 +90,9 @@ CI config), pure refactor, docs, etc. If the repo's docs define
 "security-critical" or "high-risk path" categories, explicitly check the
 diff against them. This classification determines how much Phase 3 digging
 is warranted — a docs typo doesn't need it; a permission boundary change does.
+One exception: a finding about what a tool does is never exempt, whatever the
+file it lives in. A docs PR recommending a command still gets that command
+run, since the recommendation is the thing under review.
 
 ## Phase 3: Verify, don't assume
 
@@ -96,6 +101,26 @@ claim you're tempted to make about the PR's effect, ask "how would I know
 that's true?" and go check, rather than inferring it from the diff text
 alone:
 
+- **Run it when the claim is about tool behavior.** If a finding asserts what
+  a tool does with given input (a linter, formatter, generator, or CLI —
+  "`--fix` rewrites this", "this flag catches that"), reading its source or
+  docs is not evidence. Build a minimal case in a scratch directory and run
+  it. Reading the implementation correctly and still mapping the rule to the
+  wrong axis is a specific, common failure, and it produces a confident,
+  source-cited, wrong finding that the rest of this phase will happily wave
+  through.
+  - **Include a control that should behave the other way.** A run where
+    everything fails, or everything passes, cannot tell you which variable
+    is responsible. Put a case you expect to succeed next to the one you
+    expect to fail, in the same run. If the control does not behave as
+    predicted, your model of the tool is wrong, not the tool.
+  - **Confirm every ref, tag, version, or path you build a claim on actually
+    exists** before concluding anything about behavior. A lookup failure on a
+    nonexistent tag looks exactly like a tool declining to act. One
+    `gh api`/`git ls-remote` call separates them.
+  - This is cheap, local, and reversible, so it is required rather than
+    optional. It is not the live validation ruled out under Non-goals: a
+    scratch-directory run of a local binary is not `terraform plan`.
 - **Trace real usage.** `grep` for other consumers of the changed
   module/resource/policy across the whole repo, not just the touched files.
   A change to a shared primitive (module, boundary, policy) may be consumed
@@ -122,6 +147,15 @@ Write down each candidate finding with the concrete evidence for it
 (file:line, the grep/log output that supports it) before moving to drafting.
 A finding you can't point to hard evidence for gets cut or turned into a
 question instead of an assertion.
+
+Name the evidence class for each finding, because they don't carry equal
+weight: **observed** (you ran it and this is the output), **traced** (you
+followed the code or config to it), or **inferred** (it follows from what you
+read). A claim about tool behavior that is only traced or inferred is not
+ready to post — either run it per the first bullet above, or write it as a
+question. When you report the finding, say which one it is; "I ran this and
+got X" and "reading the source, I think X" invite very different replies, and
+collapsing them is how a wrong finding gets treated as settled.
 
 ## Phase 4: Adversarial self-check
 
@@ -274,4 +308,8 @@ all separate, explicitly-authorized actions — do not chain into them.
   yourself, ask before touching their branch.
 - This skill does not run `terraform plan/apply`, cloud CLIs, or other live
   validation unless the repo's own docs say agents may do so locally — rely
-  on static tracing and posted CI/plan output instead.
+  on static tracing and posted CI/plan output instead. This bars validation
+  that touches live infrastructure, costs money, or needs credentials you
+  shouldn't be using. It does not bar running a local tool against a scratch
+  file to check what that tool does; Phase 3 requires that, and the two are
+  not the same act.
