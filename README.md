@@ -7,7 +7,7 @@ claims against the actual repo (usages, history, other consumers of the
 changed code) instead of reasoning from the diff alone, cross-checks against
 existing PR discussion, triages findings down to the one issue that matters
 most, drafts and runs it through
-[personify](https://github.com/smartwatermelon/personify), and stages it
+[personify](https://github.com/twistedmelonman/personify), and stages it
 as a GitHub pending review. It never posts, submits, or merges without
 explicit approval at each checkpoint.
 
@@ -81,7 +81,7 @@ pr-review    →    personify    →    dumbify
 pr-review does the substance: it finds the issue, verifies it, and triages down
 to the one finding worth posting. The other two only touch how the draft reads.
 
-- [personify](https://github.com/smartwatermelon/personify) strips AI-writing
+- [personify](https://github.com/twistedmelonman/personify) strips AI-writing
   tells and, given a `VOICE.md`, makes the comment sound like you specifically
   rather than like generically clean prose.
 - [dumbify](https://github.com/smartwatermelon/dumbify) compresses the register
