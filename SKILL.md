@@ -10,14 +10,14 @@ description: |
   PR discussion so comments don't duplicate what's already been said,
   triages findings down
   to the single most important issue (rarely two), drafts that and runs it
-  through the personify and dumbify skills when installed, and stages it as
+  through the personify skill when installed, and stages it as
   a GitHub pending review for explicit approval before anything gets posted.
   Never posts, submits, or merges without the user's
   go-ahead at each checkpoint. Use for "/pr-review 123", "review PR 123",
   "take a look at PR 123", or similar requests to review someone else's PR
   (not your own working diff — for that, use /code-review).
 metadata:
-  version: "1.4.0"
+  version: "1.5.0"
 ---
 
 # PR Review: deep-dive on someone else's PR
@@ -249,19 +249,14 @@ re-litigate a settled, reasonable-sounding answer.
    isn't, say so and show the plain draft instead of failing the whole
    review — personify improves the prose, it isn't load-bearing for the
    review's substance.
-   - Then, if the `dumbify` skill is also installed, run the personified
-     draft through it at its default intensity for a final compression
-     pass. Same degradation: if it isn't installed, skip it silently —
-     personify's work register is already close to dumbify's default, so
-     skipping costs little. Order is not interchangeable: personify first,
-     because its de-abstraction pass needs the actor and full sentence that
-     dumbify removes. Don't raise dumbify's intensity above the default
-     unless the invoker asks; levels 3-4 compress harder than a review
-     comment carrying a technical finding can usually afford.
-   - Neither pass may alter the substance of the finding. If the compressed
-     draft has lost a file path, line reference, identifier, number, or a
-     hedge marking genuine uncertainty, keep the longer wording — the
-     finding's precision outranks its register.
+   - Treat personify's output as final. Do not run a further rewrite or
+     compression pass on it: personify produces send-ready text for the
+     surface, and any later rewrite changes the text after personify has
+     checked it.
+   - Personify may not alter the substance of the finding. If its output
+     has lost a file path, line reference, identifier, number, or a hedge
+     marking genuine uncertainty, keep the original wording. The finding's
+     precision outranks its register.
 6. Show the human the draft (personified or plain) and wait for explicit
    approval. Accept edits and re-run as needed. Do not treat silence or a
    tangential reply as approval.

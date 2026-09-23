@@ -68,37 +68,28 @@ triage them down to the single highest-severity issue (rarely two), draft
 and personify the review, then stage it as a pending GitHub review for a
 human to submit.
 
-## Works with personify and dumbify
+## Works with personify
 
-pr-review is the first of three sibling skills that compose into one path from
-"review this PR" to a posted comment that reads like a person wrote it:
+pr-review pairs with a sibling skill to get from "review this PR" to a posted
+comment that reads like a person wrote it:
 
 ```text
-pr-review    →    personify    →    dumbify
-(find it)         (de-AI it)        (compress it)
+pr-review    →    personify
+(find it)         (write it)
 ```
 
 pr-review does the substance: it finds the issue, verifies it, and triages down
-to the one finding worth posting. The other two only touch how the draft reads.
+to the one finding worth posting. Personify only touches how the draft reads.
 
-- [personify](https://github.com/twistedmelonman/personify) strips AI-writing
-  tells and, given a `VOICE.md`, makes the comment sound like you specifically
-  rather than like generically clean prose.
-- [dumbify](https://github.com/smartwatermelon/dumbify) compresses the register
-  further — terse, lowercase, fragment-heavy.
+- [personify](https://github.com/twistedmelonman/personify) drafts in your own
+  register and, given a `VOICE.md`, makes the comment sound like you
+  specifically rather than like generically clean prose. Its output is
+  send-ready for the surface, so pr-review treats it as final and runs no
+  further pass on it.
 
-Phase 5 runs both automatically when they're installed, personify first, then
-dumbify. Both degrade gracefully, though not identically: if personify isn't
-installed, pr-review says so and shows the plain draft; if dumbify isn't
-installed, it skips that pass silently, because personify's work register
-already lands close to dumbify's default. Neither is load-bearing for the
-review's substance.
-
-The two prose skills overlap, so running both is a choice rather than an
-upgrade. Personify's work register already produces lowercase starts and
-fragments; dumbify pushes past that. For most review comments personify alone
-is enough, which is why a missing dumbify costs you little. Order is fixed —
-personify's de-abstraction pass needs the full sentence that dumbify deletes.
+Phase 5 runs personify automatically when it's installed. If it isn't,
+pr-review says so and shows the plain draft. Personify is not load-bearing for
+the review's substance.
 
 ## License
 
